@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Question Generator</title>
+    <style>
+        html, body {
+            height: 100%; /* Ensure full height for both elements */
+            margin: 0; /* Remove default margin */
+            padding: 0; /* Remove default padding */
+            width: 100%;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #484747, #1d1c1c); /* Gradient background */
+            text-align: center;
+            scroll-behavior: smooth;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        h3 {
+            color: rgb(6, 63, 186);
+            margin-bottom: 20px;
+        }
+        hr {
+            width: 80%;
+            margin: 20px auto;
+            background: linear-gradient(to bottom right, #484747, #1d1c1c); /* Gradient background */
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            margin: 10px;
+            width: 250px;
+        }
+        button {
+            background-color: #412b14;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e38c44;
+        }
+        .output {
+            background-color: #ffe1c9;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.6;
+            overflow: hidden;
+        }
+        
+        .output ul {
+            padding: 0;
+            list-style-type: none;
+        }
+        
+        .output ul li {
+            margin-bottom: 30px; /* Increase space between questions */
+        }
+        a {
+            color: #412b14;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .animated-heading {
+            font-size: 2.5em;
+            color: #ffffff;
+            animation: bounce 3s;
+            text-align: center;
+        }.features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .feature {
+            background: linear-gradient(to right, #f6d2b4, #f8b178);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            flex-basis: 30%;
+            text-align: center;
+            color: #412b14;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            const questions = document.querySelectorAll('.output ul li');
+            questions.forEach(function(question) {
+                question.innerHTML = question.innerHTML.replace(/\*\*/g, '');  // Removes all asterisks
+            });
+        };
+    </script>
+</head>
+<body>
+    <h1 style="font-size: 40px; color: #ddd">InterviewXpert</h1>
+    <h3 style="font-size: 25px; color: #ddd">Your Virtual Coach for Success in Every Interview</h3>
+    <hr><hr>
+    
+    <!-- First Step: Choose Role or CS Topic -->
+    <!-- {% if not choice %}
+    <form action="/" method="POST">
+        <label for="choice">Select Option:</label>
+        <select id="choice" name="choice" required>
+            <option value="" disabled selected>Select an option</option>
+            <option value="role">Role</option>
+            <option value="cs">CS Topics</option>
+        </select>
+        <button type="submit">Proceed</button>
+    </form>
+    {% endif %} -->
+
+    <!-- Show Role or CS topics depending on the choice -->
+    <h2 class="animated-heading"></h2>
+    <section class="features">
+        <div class="feature">
+            {% if choice == "role" %}
+<form action="{{ url_for('generate_role') }}" method="POST">
+    <label for="role" style="color: #412b14">Select Role:</label>
+    <select id="role" name="role" required>
+        <option value="" disabled selected>Select a role</option>
+        <option value="Python Developer">Python Developer</option>
+        <option value="Data Scientist">Data Scientist</option>
+        <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+        <option value="Data Analyst">Data Analyst</option>
+        <option value="Web Developer">Web Developer</option>
+    </select>
+    <button type="submit">Generate Questions</button>
+</form>
+{% elif choice == "cs" %}
+<form action="{{ url_for('generate_cs') }}" method="POST">
+    <label for="topic">Select CS Topic:</label>
+    <select id="topic" name="topic" required>
+        <option value="" disabled selected>Select a topic</option>
+        <option value="OOPs">OOPs</option>
+        <option value="SQL">SQL</option>
+        <option value="Python">Python</option>
+        <option value="Data Visualization">Data Visualization</option>
+        <option value="Algorithms">Algorithms</option>
+    </select>
+    <button type="submit">Generate Questions</button>
+</form>
+{% endif %}
+
+        </div>
+    </section>
+    
+
+    <!-- Display Generated Questions -->
+    {% if questions %}
+    <div class="output">
+        <h2 style="font-size: 30px; margin-top: 1px">Generated Interview Questions</h2>
+        <ul>
+            {% for question in questions %}
+            <li><a href="{{ url_for('question_page', question_id=loop.index0) }}" target="_blank">{{ question }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</body>
+</html>
